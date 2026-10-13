@@ -1,136 +1,164 @@
-import { useEffect, useRef } from 'react'
+import { useState } from 'react'
+import { 
+  Code2, 
+  Layers, 
+  Database, 
+  Terminal, 
+  ShieldCheck, 
+  Cpu, 
+  Check, 
+  Sparkles 
+} from 'lucide-react'
 
 const Skills = () => {
-  const skillRefs = useRef({})
+  const [activeCategory, setActiveCategory] = useState('all')
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-pulse')
-          }
-        })
-      },
-      { threshold: 0.5 }
-    )
-
-    Object.values(skillRefs.current).forEach((ref) => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
-  const technicalSkills = [
-    { name: 'Python', level: 85, color: 'from-blue-500 to-cyan-500' },
-    { name: 'JavaScript', level: 85, color: 'from-yellow-500 to-orange-500' },
-    { name: 'React & Django', level: 80, color: 'from-green-500 to-emerald-500' },
-    { name: 'Databases (SQL/NoSQL)', level: 80, color: 'from-orange-500 to-red-500' },
-    { name: 'Cybersecurity Testing', level: 75, color: 'from-purple-500 to-pink-500' },
+  const skillCategories = [
+    {
+      id: 'wordpress',
+      title: 'WordPress & Client Web Solutions',
+      icon: Layers,
+      description: 'Practical client website customization, CMS management, responsive layouts, and routine maintenance.',
+      skills: [
+        { name: 'WordPress', badge: 'CMS', desc: 'Theme & plugin customization, layouts, client site updates' },
+        { name: 'PHP', badge: 'Web', desc: 'Template hierarchy, functions, and backend customizations' },
+        { name: 'Responsive Web Design', badge: 'Design', desc: 'Ensuring sites function across desktop, tablet, and mobile' },
+        { name: 'WordPress Customization', badge: 'CMS', desc: 'Custom themes, plugins, layouts, and client requirements' },
+        { name: 'Website Maintenance', badge: 'Workflow', desc: 'Page layout improvements, content updates, and bug fixes' },
+        { name: 'Debugging & Testing', badge: 'Quality', desc: 'Real-world debugging, testing, and cross-browser checks' }
+      ]
+    },
+    {
+      id: 'frontend',
+      title: 'Core Frontend Technologies & Tools',
+      icon: Code2,
+      description: 'Core web markup, styling, scripting, and source code management.',
+      skills: [
+        { name: 'HTML5', badge: 'Frontend', desc: 'Semantic page structure, accessibility, and modern markup' },
+        { name: 'CSS3', badge: 'Frontend', desc: 'Responsive styling, Flexbox, Grid, and clean stylesheets' },
+        { name: 'JavaScript (ES6+)', badge: 'Frontend', desc: 'DOM manipulation, dynamic interactions, and modern syntax' },
+        { name: 'Git & GitHub', badge: 'Tools', desc: 'Version control, repositories, and collaborative workflows' },
+        { name: 'Bootstrap & Tailwind', badge: 'Styling', desc: 'Utility-first styling and rapid responsive layouts' },
+        { name: 'VS Code & XAMPP', badge: 'Tools', desc: 'Local development environment, Apache, and editor tools' }
+      ]
+    },
+    {
+      id: 'backend',
+      title: 'Backend, Databases & Additional Skills',
+      icon: Database,
+      description: 'Full-stack fundamentals, APIs, and relational/document databases.',
+      skills: [
+        { name: 'Python', badge: 'Backend', desc: 'Backend development, scripting, and project logic' },
+        { name: 'Django', badge: 'Framework', desc: 'Backend web applications, ORM, and secure routing' },
+        { name: 'REST APIs', badge: 'APIs', desc: 'RESTful API creation, JSON data exchange, and integration' },
+        { name: 'SQL & PostgreSQL', badge: 'Database', desc: 'Relational data querying, table structure, and data handling' },
+        { name: 'React.js', badge: 'Frontend', desc: 'Component architecture, state handling, and interactive UIs' },
+        { name: 'MongoDB', badge: 'Database', desc: 'Document store and JSON data structures' }
+      ]
+    },
+    {
+      id: 'fundamentals',
+      title: 'Computer Science Fundamentals & Security',
+      icon: Cpu,
+      description: 'Foundational computer science principles from B.E. CSE coursework and certifications.',
+      skills: [
+        { name: 'Data Structures & Algorithms', badge: 'Core CS', desc: 'Foundational problem solving, arrays, trees, and logic' },
+        { name: 'Object-Oriented Programming (OOP)', badge: 'Core CS', desc: 'Modular design, encapsulation, and clean structure' },
+        { name: 'Computer Networks (CCNA)', badge: 'Networking', desc: 'TCP/IP protocols, DNS, client-server models, and routing' },
+        { name: 'Web Security Fundamentals', badge: 'Security', desc: 'Sanitization, basic vulnerability testing, and secure practices' }
+      ]
+    }
   ]
 
-  const softSkills = [
-    { name: 'Problem Solving', level: 90, color: 'from-green-500 to-teal-500' },
-    { name: 'Team Collaboration', level: 85, color: 'from-blue-500 to-indigo-500' },
-    { name: 'Communication', level: 80, color: 'from-purple-500 to-violet-500' },
-    { name: 'Adaptability', level: 85, color: 'from-orange-500 to-yellow-500' },
+  const categories = [
+    { id: 'all', label: 'All Skills' },
+    { id: 'wordpress', label: 'WordPress & Client Work' },
+    { id: 'frontend', label: 'Frontend & Tools' },
+    { id: 'backend', label: 'Backend & Databases' },
+    { id: 'fundamentals', label: 'CS Fundamentals' }
   ]
+
+  const filteredCategories = activeCategory === 'all' 
+    ? skillCategories 
+    : skillCategories.filter(cat => cat.id === activeCategory)
 
   return (
-    <section id="skills" className="section-padding">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-tech font-bold mb-4">
-            My <span className="text-gradient">Skills</span>
+    <section id="skills" className="section-padding relative">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-3">
+            Technical Stack
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+            Skills &amp; <span className="text-gradient">Competencies</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+          <p className="text-slate-400 mt-3 text-sm sm:text-base">
+            Practical web development skills, WordPress customization, and core technical foundations.
+          </p>
+          <div className="w-20 h-1 bg-gradient-to-r from-sky-400 to-indigo-500 mx-auto rounded-full mt-4"></div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Technical Skills */}
-          <div className="card">
-            <h3 className="text-2xl font-tech font-semibold mb-8 text-gradient">
-              Programming Languages & Tools
-            </h3>
-            <div className="space-y-6">
-              {technicalSkills.map((skill, index) => (
-                <div key={skill.name} className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 font-medium">{skill.name}</span>
-                    <span className="text-primary font-semibold">{skill.level}%</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-3">
-                    <div
-                      ref={(el) => (skillRefs.current[`tech-${index}`] = el)}
-                      className={`h-3 rounded-full bg-gradient-to-r ${skill.color} transition-all duration-1000 ease-out`}
-                      style={{ width: '0%' }}
-                      onAnimationStart={(e) => {
-                        setTimeout(() => {
-                          e.target.style.width = `${skill.level}%`
-                        }, 100)
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Soft Skills */}
-          <div className="card">
-            <h3 className="text-2xl font-tech font-semibold mb-8 text-gradient">
-              Soft Skills
-            </h3>
-            <div className="space-y-6">
-              {softSkills.map((skill, index) => (
-                <div key={skill.name} className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 font-medium">{skill.name}</span>
-                    <span className="text-secondary font-semibold">{skill.level}%</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-3">
-                    <div
-                      ref={(el) => (skillRefs.current[`soft-${index}`] = el)}
-                      className={`h-3 rounded-full bg-gradient-to-r ${skill.color} transition-all duration-1000 ease-out`}
-                      style={{ width: '0%' }}
-                      onAnimationStart={(e) => {
-                        setTimeout(() => {
-                          e.target.style.width = `${skill.level}%`
-                        }, 100)
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Category Filters */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeCategory === cat.id
+                  ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25'
+                  : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700/60'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
-        {/* Additional Skills Grid */}
-        <div className="mt-16">
-          <h3 className="text-2xl font-tech font-semibold mb-8 text-center text-gradient">
-            Additional Skills & Technologies
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              'HTML, CSS & Bootstrap',
-              'MongoDB & PostgreSQL',
-              'REST APIs & Postman',
-              'Burp Suite',
-              'Git & GitHub',
-              'VS Code & XAMPP',
-              'Data Structures & OOP',
-              'Web Security & Auth',
-            ].map((skill) => (
-              <div key={skill} className="card text-center group hover:scale-105 transition-transform duration-300">
-                <div className="text-3xl mb-3">💻</div>
-                <h4 className="font-medium text-gray-300 group-hover:text-primary transition-colors duration-300">
-                  {skill}
-                </h4>
+        {/* Skills Grid by Category */}
+        <div className="space-y-10">
+          {filteredCategories.map((cat) => {
+            const Icon = cat.icon
+            return (
+              <div 
+                key={cat.id}
+                className="glass-card rounded-2xl p-6 sm:p-8 border border-slate-700/80"
+              >
+                <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
+                  <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-bold text-white">{cat.title}</h3>
+                    <p className="text-xs text-slate-400 mt-0.5">{cat.description}</p>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cat.skills.map((skill, sIdx) => (
+                    <div 
+                      key={sIdx}
+                      className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-sky-500/40 hover:bg-slate-800/60 transition-all duration-200 group"
+                    >
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="font-bold text-white text-sm group-hover:text-sky-300 transition-colors">
+                          {skill.name}
+                        </span>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-sky-400 border border-slate-700">
+                          {skill.badge}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        {skill.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
 
       </div>
@@ -138,4 +166,4 @@ const Skills = () => {
   )
 }
 
-export default Skills 
+export default Skills

@@ -1,4 +1,6 @@
-const Footer = () => {
+import { ArrowUp, Github, Linkedin, Mail, Phone, Heart, FileText } from 'lucide-react'
+
+const Footer = ({ onOpenResume }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -6,109 +8,134 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-dark-light border-t border-gray-700">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div className="text-center md:text-left">
-            <h3 className="text-2xl font-tech font-bold text-gradient mb-4">
-              ITHESH JS
-            </h3>
-            <p className="text-gray-300 text-sm mb-4">
-              Aspiring Full-Stack Developer & Cybersecurity Enthusiast
+    <footer className="bg-slate-950 border-t border-slate-800/80 pt-16 pb-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-12 gap-8 pb-12 border-b border-slate-800/80">
+          
+          {/* Brand Col */}
+          <div className="md:col-span-5 space-y-4 text-center md:text-left">
+            <div className="flex items-center gap-2 justify-center md:justify-start">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm">
+                IJ
+              </div>
+              <span className="text-xl font-bold tracking-tight text-white">
+                ITHESH JS
+              </span>
+            </div>
+            <p className="text-sm text-slate-400 max-w-sm mx-auto md:mx-0 leading-relaxed">
+              Junior Web Developer &amp; WordPress Specialist. Experienced in client website development, responsive design, and modern frontend technologies.
             </p>
-            <p className="text-gray-400 text-xs">
-              Building the future, one line of code at a time.
-            </p>
+            <div className="pt-1">
+              <button
+                onClick={onOpenResume}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold hover:bg-sky-500/20 transition-colors cursor-pointer"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>View Full Curriculum Vitae</span>
+              </button>
+            </div>
           </div>
 
           {/* Quick Links */}
-          <div className="text-center">
-            <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
-            <div className="space-y-2">
+          <div className="md:col-span-3 text-center md:text-left">
+            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4">
+              Navigation
+            </h4>
+            <div className="space-y-2.5 text-sm">
               {[
                 { name: 'About', href: '#about' },
+                { name: 'Experience', href: '#experience' },
                 { name: 'Skills', href: '#skills' },
                 { name: 'Projects', href: '#projects' },
-                { name: 'Contact', href: '#contact' },
+                { name: 'Education & Certifications', href: '#education' },
+                { name: 'Contact', href: '#contact' }
               ].map((link) => (
-                <button
+                <a
                   key={link.name}
-                  onClick={() => document.querySelector(link.href).scrollIntoView({ behavior: 'smooth' })}
-                  className="block text-gray-300 hover:text-primary transition-colors duration-300 text-sm"
+                  href={link.href}
+                  className="block text-slate-400 hover:text-sky-400 transition-colors"
                 >
                   {link.name}
-                </button>
+                </a>
               ))}
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="text-center md:text-right">
-            <h4 className="text-lg font-semibold text-white mb-4">Connect</h4>
-            <div className="flex justify-center md:justify-end space-x-4">
+          {/* Connect & Contact */}
+          <div className="md:col-span-4 text-center md:text-left space-y-3">
+            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4">
+              Direct Contact
+            </h4>
+            <div className="space-y-2 text-xs text-slate-400">
+              <p className="flex items-center gap-2 justify-center md:justify-start">
+                <Mail className="w-3.5 h-3.5 text-sky-400" />
+                <a href="mailto:itheshjs2004@gmail.com" className="hover:text-white transition-colors">
+                  itheshjs2004@gmail.com
+                </a>
+              </p>
+              <p className="flex items-center gap-2 justify-center md:justify-start">
+                <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                <a href="tel:+919019816016" className="hover:text-white transition-colors">
+                  +91 9019816016
+                </a>
+              </p>
+              <p className="text-slate-500">Karnataka, India (Available for Relocation)</p>
+            </div>
+
+            <div className="flex items-center gap-3 justify-center md:justify-start pt-3">
               <a
-                href="mailto:itheshjs2004@gmail.com"
-                className="text-gray-300 hover:text-primary transition-colors duration-300"
-                title="Email"
-              >
-                📧
-              </a>
-              <a
-                href="https://linkedin.com/in/ithesh-js-a65600350"
+                href="https://linkedin.com/in/ithesh-j-s-a65600350"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-primary transition-colors duration-300"
+                rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-sky-400 hover:border-sky-500/40 transition-colors"
                 title="LinkedIn"
               >
-                💼
+                <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href="https://github.com/Itheshjs"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-primary transition-colors duration-300"
+                rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-600 transition-colors"
                 title="GitHub"
               >
-                🐙
+                <Github className="w-4 h-4" />
               </a>
               <a
-                href="tel:+919019816016"
-                className="text-gray-300 hover:text-primary transition-colors duration-300"
-                title="Phone"
+                href="mailto:itheshjs2004@gmail.com"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-sky-400 hover:border-sky-500/40 transition-colors"
+                title="Email"
               >
-                📞
+                <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>
+
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-8 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-gray-400 text-sm text-center md:text-left">
+        {/* Bottom Strip */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div>
             © {currentYear} Ithesh JS. All rights reserved.
           </div>
-          
-          <div className="mt-4 md:mt-0">
+
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1">
+              Engineered with React &amp; Tailwind CSS
+            </span>
             <button
               onClick={scrollToTop}
-              className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors duration-300 text-sm"
+              className="inline-flex items-center gap-1 text-slate-400 hover:text-sky-400 font-semibold cursor-pointer transition-colors"
             >
               <span>Back to Top</span>
-              <span className="text-lg">↑</span>
+              <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
-        {/* Made with love */}
-        <div className="mt-6 text-center">
-          <p className="text-gray-500 text-xs">
-            Made with ❤️ using React, Tailwind CSS, and lots of coffee ☕
-          </p>
-        </div>
       </div>
     </footer>
   )
 }
 
-export default Footer 
+export default Footer
